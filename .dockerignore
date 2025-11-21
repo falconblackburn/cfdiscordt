@@ -7,9 +7,12 @@ Dockerfile
 README.md
 LICENSE
 
-*.db
 files/*.cfg
 files/*.state
 files/*.key
 files/*.log
 files/data/*-*
+
+# Exclude all .db files EXCEPT rootthebox.db
+*.db
+!rootthebox.db
