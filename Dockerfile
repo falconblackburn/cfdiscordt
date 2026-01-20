@@ -1,64 +1,33 @@
-FROM falcon1738/rootthebox-app:latest
+FROM python:3.9-slim
 
-# Copy your database
-COPY ./rootthebox.db /opt/rtb/files/rootthebox.db
+# Install system dependencies including memcached and build tools
+RUN apt-get update && apt-get install -y \
+    memcached \
+    gcc \
+    libpq-dev \
+    libmemcached-dev \
+    zlib1g-dev \
+    && rm -rf /var/lib/apt/lists/*
 
-# Create FINAL working startup script
-RUN cat > /start.sh << 'SCRIPT_EOF'
-#!/bin/bash
+WORKDIR /app
 
-echo "=========================================="
-echo "CREATING ADMIN USER"
-echo "=========================================="
+# Copy requirements and install dependencies
+COPY setup/requirements.txt /app/setup/requirements.txt
+RUN pip install --no-cache-dir -r setup/requirements.txt && \
+    pip install --no-cache-dir psycopg2-binary pylibmc
 
-# Create admin user with correct database structure
-python3 -c "
-import sqlite3
-import hashlib
-from datetime import datetime
+# Copy the rest of the application
+COPY . /app
 
-conn = sqlite3.connect('/opt/rtb/files/rootthebox.db')
-cursor = conn.cursor()
+# Make the entrypoint script executable
+COPY render_entrypoint.sh /app/render_entrypoint.sh
+RUN chmod +x /app/render_entrypoint.sh
 
-# Check if admin exists using _handle column
-cursor.execute('SELECT * FROM user WHERE _handle=\"admin\"')
-if not cursor.fetchone():
-    print('Creating admin user...')
-    password_hash = hashlib.sha256('admin123'.encode()).hexdigest()
-    
-    # Insert admin user with correct columns
-    cursor.execute('''
-        INSERT INTO user (
-            created, _handle, _name, _email, password, 
-            _locked, logins, money, algorithm
-        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
-    ''', (
-        datetime.now(),  # created
-        'admin',         # _handle
-        'Admin User',    # _name  
-        'admin@example.com',  # _email
-        password_hash,   # password
-        False,           # _locked
-        0,               # logins
-        0,               # money
-        'sha256'         # algorithm
-    ))
-    
-    conn.commit()
-    print('✅ ADMIN CREATED: admin / admin123')
-else:
-    print('✅ ADMIN ALREADY EXISTS')
+# Environment variables
+ENV PYTHONUNBUFFERED=1
 
-conn.close()
-"
+# Expose the port
+EXPOSE 8888
 
-echo "=========================================="
-echo "STARTING ROOTTHEBOX"
-echo "=========================================="
-
-cd /opt/rtb
-exec python3 rootthebox.py
-SCRIPT_EOF
-
-RUN chmod +x /start.sh
-ENTRYPOINT ["/bin/bash", "/start.sh"]
+# Set entrypoint
+ENTRYPOINT ["/app/render_entrypoint.sh"]
