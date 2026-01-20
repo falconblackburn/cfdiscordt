@@ -35,6 +35,10 @@ services:
         value: "false"
       - key: DEBUG
         value: "false"
+      - key: RTB_ADMIN_PASSWORD
+        generateValue: true
+      - key: RTB_ADMIN_USERNAME
+        value: "admin"
 
 databases:
   - name: rootthebox-db

@@ -48,6 +48,10 @@ if (
 ):
     admin_handle = "admin"
     password = "rootthebox"
+elif os.environ.get("RTB_ADMIN_PASSWORD"):
+    admin_handle = os.environ.get("RTB_ADMIN_USERNAME", "admin")
+    password = os.environ.get("RTB_ADMIN_PASSWORD")
+    print(INFO + "Creating admin user from environment: %s" % admin_handle)
 else:
     admin_handle = str(input(PROMPT + "RootTheBox Admin Username [admin]: ")) or "admin"
     sys.stdout.write(PROMPT + "New Admin ")

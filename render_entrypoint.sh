@@ -14,6 +14,11 @@ echo "SQL_PORT: $SQL_PORT"
 echo "SQL_USER: $SQL_USER"
 echo "SQL_DIALECT: $SQL_DIALECT"
 
+# Default Admin Credentials
+export RTB_ADMIN_USERNAME=${RTB_ADMIN_USERNAME:-admin}
+export RTB_ADMIN_PASSWORD=${RTB_ADMIN_PASSWORD:-rootthebox}
+echo "Using Admin: $RTB_ADMIN_USERNAME / $RTB_ADMIN_PASSWORD"
+
 # Run database setup / migrations
 echo "Running Database Setup..."
 # Explicitly pass vars to avoid parsing issues
