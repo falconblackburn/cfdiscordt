@@ -628,7 +628,7 @@ define(
 
 define(
     "ctf_logo",
-    default="/static/images/rtb2.png",
+    default="/static/images/cloudflare_logo.png",
     group="game",
     help="the image displayed on the welcome page",
     type=game_type,

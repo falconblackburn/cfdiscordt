@@ -39,6 +39,8 @@ services:
         generateValue: true
       - key: RTB_ADMIN_USERNAME
         value: "admin"
+      - key: CTF_TAGLINE
+        value: "Cloudflare Discord Hackathon"
 
 databases:
   - name: rootthebox-db
