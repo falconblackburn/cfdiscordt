@@ -74,26 +74,29 @@ class DatabaseConnection(object):
         """
         Configured to use postgresql, there is no built-in support
         for postgresql so make sure we can import the 3rd party
-        python lib 'pypostgresql'
+        python lib 'pypostgresql' or 'psycopg2'
         """
         logging.debug("Configured to use Postgresql for a database")
-        try:
-            import pypostgresql
-        except ImportError:
-            print(WARN + "You must install 'pypostgresql'")
-            os._exit(1)
         db_host, db_name, db_user, db_password = self._db_credentials()
-        postgres = "postgresql+pypostgresql://%s:%s@%s/%s" % (
-            db_user,
-            db_password,
-            db_host,
-            db_name,
-        )
-        if self._test_connection(postgres):
-            return postgres
-        else:
-            logging.fatal("Cannot connect to database with any available driver")
-            os._exit(1)
+        
+        # Drivers to test
+        drivers = [
+            "postgresql+psycopg2://%s:%s@%s/%s",
+            "postgresql+pypostgresql://%s:%s@%s/%s",
+        ]
+        
+        for driver_fmt in drivers:
+            db_conn = driver_fmt % (
+                db_user,
+                db_password,
+                db_host,
+                db_name,
+            )
+            if self._test_connection(db_conn):
+                return db_conn
+
+        print(WARN + "You must install 'psycopg2' or 'pypostgresql'")
+        os._exit(1)
 
     def _sqlite(self):
         """

@@ -1,0 +1,57 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Home</title>
+<link rel="stylesheet" href="styles.css">
+<!-- FLAG{index-main-hidden-111} -->
+</head>
+<body>
+<h1>Home</h1>
+<p>Explore the pages and exploit the “vulnerabilities”.</p>
+
+<h2>Simulated SQL Injection</h2>
+<form id="sqli-form">
+  <label>Username: <input name="user"></label>
+  <button type="submit">Login</button>
+</form>
+<p id="sqli-output"></p>
+
+<script>
+document.getElementById("sqli-form").onsubmit = function(e){
+  e.preventDefault();
+  const u = e.target.user.value;
+  // Fake SQLi behavior
+  if (u.includes("'") || u.toLowerCase().includes("or 1=1")) {
+    document.getElementById("sqli-output").innerText =
+      "SQL Injection Success! FLAG{fake-sqli-flag-001}";
+  } else {
+    document.getElementById("sqli-output").innerText =
+      "Invalid user.";
+  }
+};
+</script>
+
+<h2>XSS Challenge</h2>
+<form id="xss-form">
+    <label>Comment: <input name="c"></label>
+    <button type="submit">Post</button>
+</form>
+<div id="comments"></div>
+
+<script>
+document.getElementById("xss-form").onsubmit = function(e){
+  e.preventDefault();
+  const c = e.target.c.value;
+  // Intentionally unsafe innerHTML
+  document.getElementById("comments").innerHTML += "<p>"+c+"</p>";
+  if (c.includes("<script>")){
+    document.getElementById("comments").innerHTML += 
+      "<p>FLAG{basic-xss-777}</p>";
+  }
+};
+</script>
+
+<p><a href="about.html">About</a> | <a href="contact.html">Contact</a></p>
+</body>
+</html>

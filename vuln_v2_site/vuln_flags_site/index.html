@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Welcome — Simple Site</title>
+  <meta name="author" content="CTF Lab">
+  <link rel="stylesheet" href="styles.css">
+  <!-- Hidden flag (HTML comment): FLAG{comment-flag-123} -->
+</head>
+<body>
+  <header>
+    <h1>Simple Static Site</h1>
+    <nav>
+      <a href="index.html">Home</a> |
+      <a href="about.html">About</a> |
+      <a href="contact.html">Contact</a>
+    </nav>
+  </header>
+
+  <main>
+    <section>
+      <h2>Welcome</h2>
+      <p>This is a small demo site for a CTF. Look around — some flags are hidden in the source, markup, attributes, and CSS.</p>
+
+      <!-- Hidden flag as base64 in a comment: ZmxhZ3tjb21tZW50LWJhc2U2NC0xMjN9 -->
+      <!-- (base64 decodes to FLAG{comment-base64-123}) -->
+
+      <p>Spot the image below — its alt text has something interesting.</p>
+      <img src="placeholder.png" alt="FLAG{img-alt-flag-456}" width="200" height="100">
+
+      <p>Invisible text (CSS-hidden): <span class="hidden">FLAG{css-hidden-789}</span></p>
+
+      <p>Off-screen text (visually hidden): <span class="sr-only">FLAG{visually-hidden-321}</span></p>
+
+      <p data-flag="FLAG{data-attribute-654}">A paragraph with a data-* attribute.</p>
+
+      <!-- A flag hidden inside an HTML entity and comment -->
+      <!-- &lt;!-- FLAG{entity-flag-000} --&gt; -->
+    </section>
+  </main>
+
+  <footer>
+    <p>© Simple Site</p>
+    <!-- Meta-like hidden flag in a fake meta comment: <meta name="flag" content="FLAG{meta-comment-852}"> -->
+  </footer>
+</body>
+</html>

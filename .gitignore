@@ -78,3 +78,9 @@ __pycache__
 
 # Readme
 !*README.md
+
+# Deployment and temp files
+*.tar
+*.deb
+venv/
+tunnel.out

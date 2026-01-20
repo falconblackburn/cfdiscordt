@@ -1,0 +1,43 @@
+services:
+  - type: web
+    name: rootthebox
+    runtime: docker
+    dockerfilePath: Dockerfile.render
+    plan: free
+    envVars:
+      - key: SQL_DIALECT
+        value: postgresql
+      - key: SQL_DATABASE
+        fromDatabase:
+          name: rootthebox-db
+          property: database
+      - key: SQL_HOST
+        fromDatabase:
+          name: rootthebox-db
+          property: host
+      - key: SQL_PORT
+        fromDatabase:
+          name: rootthebox-db
+          property: port
+      - key: SQL_USER
+        fromDatabase:
+          name: rootthebox-db
+          property: user
+      - key: SQL_PASSWORD
+        fromDatabase:
+          name: rootthebox-db
+          property: password
+      - key: MEMCACHED
+        value: 127.0.0.1:11211
+      - key: ORIGIN
+        value: https://${RENDER_EXTERNAL_HOSTNAME}
+      - key: AUTORELOAD_SOURCE
+        value: "false"
+      - key: DEBUG
+        value: "false"
+
+databases:
+  - name: rootthebox-db
+    plan: free
+    databaseName: rootthebox
+    user: rtb_user

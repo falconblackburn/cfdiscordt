@@ -1,0 +1,51 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>CTF Start</title>
+  <script src="main.js" defer></script>
+  <style>
+    body{font-family:Arial; padding:18px;}
+    section{border:1px solid #ddd;padding:12px;margin:12px 0;border-radius:6px;}
+    input{margin:6px;}
+    button{margin-left:6px;}
+  </style>
+</head>
+<body>
+  <h1>CTF Start — Minimal Lab</h1>
+
+  <section id="content">
+    <h2>Home</h2>
+    <p>Use the URL params and forms below to find flags.</p>
+  </section>
+
+  <section>
+    <h2>Login (SQLi simulation)</h2>
+    <form id="login-form">
+      <label>User: <input name="u" /></label>
+      <label>Pass: <input name="p" type="password" /></label>
+      <button>Login</button>
+    </form>
+    <div id="login-out" aria-live="polite"></div>
+  </section>
+
+  <section>
+    <h2>Search (Reflected XSS)</h2>
+    <p>Try adding <code>?q=</code> with a payload to the URL bar.</p>
+    <div id="search-results"></div>
+  </section>
+
+  <section>
+    <h2>Feedback (DOM XSS)</h2>
+    <form id="feedback-form">
+      <label>Message: <input name="m" /></label>
+      <button>Send</button>
+    </form>
+    <div id="feedback-box"></div>
+  </section>
+
+  <footer>
+    <p>Try: <code>?q=</code>, <code>#payload</code>, <code>?page=flag</code>, or submit the forms.</p>
+  </footer>
+</body>
+</html>

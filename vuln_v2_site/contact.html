@@ -1,0 +1,48 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Contact</title>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<h1>Contact</h1>
+
+<h2>Simulated Admin Panel Bypass</h2>
+<form id="admin-form">
+  <label>API Key: <input name="key"></label>
+  <button type="submit">Access</button>
+</form>
+<div id="admin-out"></div>
+
+<script>
+document.getElementById("admin-form").onsubmit = function(e){
+  e.preventDefault();
+  const k = e.target.key.value;
+  // Fake "insecure" key disclosure bypass
+  if(k === "' OR '1'='1"){
+    document.getElementById("admin-out").innerText =
+      "Bypass success! FLAG{auth-bypass-555}";
+  } else {
+    document.getElementById("admin-out").innerText="Access denied.";
+  }
+};
+</script>
+
+<h2>DOM-Based XSS</h2>
+<p>Use #msg=something</p>
+<div id="dom"></div>
+
+<script>
+const hash = location.hash.replace("#msg=","");
+if(hash){
+  document.getElementById("dom").innerHTML = hash;
+  if(hash.includes("<svg")){
+    document.getElementById("dom").innerHTML += "<p>FLAG{dom-xss-666}</p>";
+  }
+}
+</script>
+
+<p><a href="index.html">Home</a></p>
+</body>
+</html>

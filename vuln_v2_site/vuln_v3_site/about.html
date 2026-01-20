@@ -1,0 +1,27 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>About</title>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<header><h1>About This Project</h1></header>
+<main>
+<p>This page contains an open redirect and reflected XSS points for training.</p>
+
+<section>
+<h2>Reflected XSS</h2>
+<div id="ref"></div>
+</section>
+
+<section>
+<h2>Open Redirect</h2>
+<p>Use <code>?next=</code> to change partner link.</p>
+<a id="redir" href="#">Partner</a>
+</section>
+
+<script src="main.js"></script>
+</main>
+</body>
+</html>
